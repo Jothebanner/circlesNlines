@@ -12,6 +12,10 @@ function Circle(xPos, yPos, xSpeed, ySpeed) {
   this.counter = 0;
 }
 
+Circle.prototype.destroy = function () {
+  
+}
+
 Circle.prototype.update = function () {
 
   ctx.strokeStyle = '#F8F8F8';
@@ -24,9 +28,9 @@ Circle.prototype.update = function () {
     0, 
     Math.PI * 2
          );
-    ctx.closePath();
-    ctx.stroke();
-    ctx.fill();
+  ctx.closePath();
+  ctx.stroke();
+  ctx.fill();
 };
 
 function CreateCircles() {
