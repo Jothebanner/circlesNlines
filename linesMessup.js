@@ -1,28 +1,21 @@
 var c = document.getElementById("myCanvas"),
-ctx = c.getContext("2d"),
-numOfCircles = 10;
+numOfCircles = 100;
 mouse = {
   x: 0,
   y: 0
 };  // mouse location
 
-window.onresize = changeToGrid;
-
 // if the width and height are set with css then everything streches
 // so setting it again makes it utilize canvas's grid system
 // https://stackoverflow.com/questions/2588181/canvas-is-stretched-when-using-css-but-normal-with-width-height-properties
-function changeToGrid() 
-{
 c.width = document.getElementById("myCanvas").clientWidth;
 c.height = document.getElementById("myCanvas").clientHeight;
 
+var ctx = c.getContext("2d");
 // set context width and height
-// alert("w:" + ctx.width + " h:" + ctx.height);
 ctx.width = document.getElementById("myCanvas").clientWidth;
 ctx.height = document.getElementById("myCanvas").clientHeight;
-}
-changeToGrid();
-
+// alert("w:" + ctx.width + " h:" + ctx.height);
 
 // array to hold all of the cirle objects in
 var circles = [];
@@ -45,8 +38,7 @@ function Circle(x, y, xSpeed, ySpeed)
   this.counter = 0;
 }
 
-function update() 
-{
+function update() {
   for (a = 0; a < circles.length; a++)
   {
     circleX = circles[a].x;
@@ -54,60 +46,39 @@ function update()
     if (circleX < 0 || circleX > ctx.width || circleY < 0 || circleY > ctx.height)
     {
       circles.splice(a, 1);
-    }
-    while (circles.length < numOfCircles) 
-    {
-      var randomX = Math.floor(Math.random()*(ctx.width)+1);
-    var randomY = Math.floor(Math.random()*(ctx.height)+1);
-    var totalSpeed = Math.random(1);
-    var xSpeed = 1 - totalSpeed;
-    var ySpeed = totalSpeed;
+      if (Math.random() < 0.5) {
+        if (Math.random() < 0.5) {
+          var randomX = Math.floor(Math.random()*(ctx.width)+1);
+          var randomY = 1;
+        } 
+        else {
+          var randomX = Math.floor(Math.random()*(ctx.width)+1);
+          var randomY = -1;
+        }
+      }
+      else {
+        if (Math.random() < 0.5) {
+          var randomY = Math.floor(Math.random()*(ctx.height)+1);
+          var randomX = 1;
+        }
+        else {
+          var randomY = Math.floor(Math.random()*(ctx.height)+1);
+          var randomX = -1;
+        }
+      }
+      var totalSpeed = Math.random(1);
+      var xSpeed = 1 - totalSpeed;
+      var ySpeed = totalSpeed;
 
-    if (Math.random(1) < 0.5) {
-      xSpeed *= -1;
-    }
-    if (Math.random(1) < 0.5) {
-      ySpeed *= -1;
-    }
+      if (randomX == -1 || Math.random(1) < 0.5 && randomX != 1) {
+        xSpeed *= -1;
+      }
+      if (randomY == -1 || Math.random(1) < 0.5 && randomY != 1) {
+        ySpeed *= -1;
+      }
 
-    var circle = new Circle(randomX, randomY, xSpeed, ySpeed)
-    circles.push(circle);
-
-      // var totalSpeed = Math.random(1);
-      // var xSpeed = 1 - totalSpeed;
-      // var ySpeed = totalSpeed;
-      
-      // if (Math.random() < 0.5) {
-      //   if (Math.random() < 0.5) {
-      //     var randomX = Math.random()*(ctx.width)+1;
-      //     var randomY = 1;
-      //     ySpeed *= 1;
-      //   }
-      //   else 
-      //   {
-      //     var randomX = Math.random()*(ctx.width)+1;
-      //     var randomY = ctx.height;
-      //     ySpeed *= -1;
-      //   }
-      // }
-      // else {  
-      //   if (Math.random() < 0.5) {
-      //     if (Math.random() < 0.5) {
-      //       var randomY = Math.random()*(ctx.height)+1;
-      //       var randomX = 1;
-      //       xSpeed *= 1;
-      //     }
-      //     else
-      //     {
-      //       var randomY = Math.random()*(ctx.height)+1;
-      //       var randomX = ctx.width;
-      //       xSpeed *= -1;
-      //     }
-      //   }
-      // }
-
-      // var circle = new Circle(randomX, randomY, xSpeed, ySpeed)
-      // circles.push(circle);
+      var circle = new Circle(randomX, randomY, xSpeed, ySpeed)
+      circles.push(circle);
     }
   }
 }
@@ -194,5 +165,4 @@ function drawAndUpdate()
 c.addEventListener('mousemove', function(e){
   mouse.x = e.clientX;
   mouse.y = e.clientY;
-  document.getElementById("debug").innerHTML = mouse.x + " " + mouse.y;
 });
