@@ -1,6 +1,6 @@
 var c = document.getElementById("myCanvas"),
 ctx = c.getContext("2d"),
-numOfCircles = 100;
+numOfCircles = 200;
 mouse = {
   x: 0,
   y: 0
@@ -121,31 +121,29 @@ function draw()
     ctx.arc(
       circle1.x += circle1.xSpeed,
       circle1.y += circle1.ySpeed,
-      5, 
+      4, 
       0, 
       Math.PI * 2
           );
     ctx.fill();
-    ctx.lineWidth = 0;
-    var m2c = distance(mouse, circle1);
-    if (m2c < 50000) {
+    ctx.lineWidth = 0.01;
+    
+    if (distance(mouse, circle1) < 50000) {
       ctx.beginPath();
       ctx.moveTo(circle1.x, circle1.y);
       ctx.lineTo(mouse.x, mouse.y);
-      ctx.lineWidth = (50000 - m2c) * 2 / 100000;
+      ctx.lineWidth = 0.1;
       ctx.stroke();
     }
     
     for (v = 0;v < circles.length; v++) 
     {
       circle2 = circles[v];
-      var c2c = distance(circle1, circle2);
-      if (c2c < 50000) 
+      if (distance(circle1, circle2) < 50000) 
       {
         ctx.beginPath();
         ctx.moveTo(circle1.x, circle1.y);
         ctx.lineTo(circle2.x, circle2.y);
-        ctx.lineWidth = (50000 - c2c) * 2 / 100000;
         ctx.stroke();
       }
     }
