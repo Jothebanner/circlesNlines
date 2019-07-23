@@ -49,7 +49,7 @@ function update()
   {
     circleX = circles[a].x;
     circleY = circles[a].y;
-    if (circleX < 0 || circleX > ctx.width || circleY < 0 || circleY > ctx.height)
+    if (circleX < 0 -100 || circleX > ctx.width + 100 || circleY < 0 - 100 || circleY > ctx.height + 100)
     {
       circles.splice(a, 1);
     }
@@ -70,6 +70,9 @@ function update()
 
       var circle = new Circle(randomX, randomY, xSpeed, ySpeed)
       circles.push(circle);
+
+      // Attempt to spawn at the edges rather than a random place in the middle.
+      // the dots slowly disappear forever and it's not worth the time to debug because it works
 
       // var totalSpeed = Math.random(1);
       // var xSpeed = 1 - totalSpeed;
@@ -132,7 +135,7 @@ function draw()
       ctx.beginPath();
       ctx.moveTo(circle1.x, circle1.y);
       ctx.lineTo(mouse.x, mouse.y);
-      ctx.lineWidth = (50000 - m2c) * 2 / 100000;
+      ctx.lineWidth = (50000 - m2c) * 4 / 100000;
       ctx.stroke();
     }
     
