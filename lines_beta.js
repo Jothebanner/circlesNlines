@@ -1,8 +1,6 @@
 var c = document.getElementById("myCanvas"),
 ctx = c.getContext("2d"),
 numOfCircles = 100;
-var globalSpeed = 1;
-var toggle = true;
 mouse = {
   x: 0,
   y: 0
@@ -17,7 +15,6 @@ function changeToGrid()
 {
 c.width = document.getElementById("myCanvas").clientWidth;
 c.height = document.getElementById("myCanvas").clientHeight;
-numOfCircles = c.width / 20;
 
 // set context width and height
 // alert("w:" + ctx.width + " h:" + ctx.height);
@@ -60,8 +57,8 @@ function update()
     {
       var randomX = Math.floor(Math.random()*(ctx.width)+1);
       var randomY = Math.floor(Math.random()*(ctx.height)+1);
-      var totalSpeed = Math.random(globalSpeed);
-      var xSpeed = globalSpeed - totalSpeed;
+      var totalSpeed = Math.random(1);
+      var xSpeed = 1 - totalSpeed;
       var ySpeed = totalSpeed;
 
       if (Math.random(1) < 0.5) {
@@ -121,29 +118,25 @@ function draw()
   for (var i = 0; i < circles.length; i++) 
   {
     circle1 = circles[i];
-    ctx.strokeStyle = '#DCDCDC';
-    ctx.fillStyle = "#DCDCDC";
+    ctx.strokeStyle = '#F8F8F8';
+    ctx.fillStyle = "#F5F5F5";
     ctx.beginPath();
     ctx.arc(
-      circle1.x += circle1.xSpeed / 2,
-      circle1.y += circle1.ySpeed / 2,
-      2.5, 
+      circle1.x += circle1.xSpeed,
+      circle1.y += circle1.ySpeed,
+      5, 
       0, 
       Math.PI * 2
           );
     ctx.fill();
     ctx.lineWidth = 0;
-
-    if (toggle == true)
-    {
-      var m2c = distance(mouse, circle1);
-      if (m2c < 50000) {
-        ctx.beginPath();
-        ctx.moveTo(circle1.x, circle1.y);
-        ctx.lineTo(mouse.x, mouse.y);
-        ctx.lineWidth = (50000 - m2c) * 2 / 100000;
-        ctx.stroke();
-      }
+    var m2c = distance(mouse, circle1);
+    if (m2c < 50000) {
+      ctx.beginPath();
+      ctx.moveTo(circle1.x, circle1.y);
+      ctx.lineTo(mouse.x, mouse.y);
+      ctx.lineWidth = (50000 - m2c) * 4 / 100000;
+      ctx.stroke();
     }
     
     for (v = 0;v < circles.length; v++) 
@@ -155,7 +148,7 @@ function draw()
         ctx.beginPath();
         ctx.moveTo(circle1.x, circle1.y);
         ctx.lineTo(circle2.x, circle2.y);
-        ctx.lineWidth = (50000 - c2c) * 1 / 100000;
+        ctx.lineWidth = (50000 - c2c) * 2 / 100000;
         ctx.stroke();
       }
     }
@@ -168,8 +161,8 @@ function CreateCircles()
   {
     var randomX = Math.floor(Math.random()*(ctx.width)+1);
     var randomY = Math.floor(Math.random()*(ctx.height)+1);
-    var totalSpeed = Math.random(globalSpeed);
-    var xSpeed = globalSpeed - totalSpeed;
+    var totalSpeed = Math.random(1);
+    var xSpeed = 1 - totalSpeed;
     var ySpeed = totalSpeed;
 
     if (Math.random(1) < 0.5) {
@@ -196,13 +189,7 @@ function drawAndUpdate()
   requestAnimationFrame(drawAndUpdate);
 }
 c.addEventListener('mousemove', function(e){
-  mouse.x = e.layerX;
-  mouse.y = e.layerY;
-  //document.getElementById("debug").innerHTML = mouse.x + " " + mouse.y + " " + circles.length;
-});
-c.addEventListener('mouseover', function(e){
-  toggle = true;
-});
-c.addEventListener('mouseout', function(e){
-  toggle = false;
+  mouse.x = e.clientX;
+  mouse.y = e.clientY;
+  document.getElementById("debug").innerHTML = mouse.x + " " + mouse.y + " " + circles.length;
 });
